@@ -1,14 +1,13 @@
 from aiogram import Bot, Dispatcher
 from aiogram.client.bot import DefaultBotProperties
 from aiogram.enums import ParseMode
-from aiogram.types import Message
+from aiogram.types import Message, BotCommand
 from aiogram.filters import*
 from config import TOKEN, OWNER_ID  #токен бота
 from game import*
 from command import*
 import asyncio
 import logging
-
 TOKEN_API = TOKEN
 
 bot = Bot(token=TOKEN_API, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
@@ -17,7 +16,20 @@ dp = Dispatcher()
 
 @dp.message(CommandStart())
 async def cmd_start(message: Message):
+    bot_commands = [
+        BotCommand(command=help_command, description="Get info about me"),
+        BotCommand(command=start_command, description="Get start about me"),
+        BotCommand(command=svo_command, description="Get info about me"),
+        BotCommand(command=zov_command, description="Get info about me"),
+        BotCommand(command=game_command, description="Get info about me")
+    ]
+    
+    await bot.set_my_commands(bot_commands)
+    
+
     await message.reply("Привет, я Svой, не бойся, что-бы узнать меня получше, напиши /help")
+
+    
 
 @dp.message(Command(zov_command))
 async def cmd_zov(message: Message):
@@ -30,6 +42,8 @@ async def cmd_help(message: Message):
 @dp.message(Command(svo_command))
 async def cmd_svo(message: Message):
     await message.answer("<b>СВО, ГОЙДА БРАТЬЯ, Я ВАС ЛЮБЛЮ</b>")
+    # await bot.send_audio(message.from_user.id, open("1-Татьяна-Куртукова-Матушка-J84Y9D.flac", "r"), performer = "Performer", title = "Title")
+
     
 keys = ', '.join(list(game_dictionary.keys()))
 
