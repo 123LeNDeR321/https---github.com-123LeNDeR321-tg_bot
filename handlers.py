@@ -7,6 +7,7 @@ from game import* #список игр
 from command import* #команды бота
 from config import*
 from aiogram.enums import ParseMode
+import keyboards as kb
 TOKEN_API = TOKEN
 
 bot = Bot(token=TOKEN_API, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
@@ -32,7 +33,9 @@ async def cmd_zov(message: Message):
 
 @router.message(Command(help_command))
 async def cmd_help(message: Message):
-    await message.reply(f"<b>Команды:\n/{start_command}\n/{help_command}\n/{zov_command}\n/{svo_command}\n{game_command}\nя улучшаюсь, поэтому этот список увеличится :)</b>")
+    await message.reply(f"<b>Команды:\n/{start_command}\n/{help_command}\n/{zov_command}\n/{svo_command}\n{game_command}\nя улучшаюсь, поэтому этот список увеличится :)</b>",
+                        reply_markup=kb.code_keyboard)
+
 
 @router.message(Command(svo_command))
 async def cmd_svo(message: Message):
